@@ -329,47 +329,51 @@ section::after {
     content: '';
     position: absolute;
     pointer-events: none;
-    opacity: 0.03;
+    opacity: 0.1;
     z-index: 0;
+    will-change: transform, border-radius;
+    transform: translateZ(0);
 }
 
 /* Animated Background Scribbles */
 section::before {
-    width: 300px;
-    height: 300px;
-    border: 3px solid var(--primary-color);
+    width: 350px;
+    height: 350px;
+    border: 4px solid var(--primary-color);
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
     top: -100px;
     right: -50px;
-    animation: morph 15s ease-in-out infinite;
+    animation: morph 18s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
 }
 
 section::after {
-    width: 200px;
-    height: 200px;
-    border: 2px solid var(--secondary-color);
+    width: 280px;
+    height: 280px;
+    border: 3px solid var(--secondary-color);
     border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
     bottom: -50px;
     left: -30px;
-    animation: morph 12s ease-in-out infinite reverse;
+    animation: morph 14s ease-in-out infinite reverse;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
 }
 
 @keyframes morph {
     0%, 100% {
         border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-        transform: rotate(0deg) translate(0, 0) scale(1);
+        transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
     }
     25% {
         border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-        transform: rotate(90deg) translate(30px, -30px) scale(1.1);
+        transform: translate3d(25px, -25px, 0) rotate(90deg) scale(1.05);
     }
     50% {
         border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
-        transform: rotate(180deg) translate(-20px, 20px) scale(0.9);
+        transform: translate3d(-15px, 15px, 0) rotate(180deg) scale(0.95);
     }
     75% {
         border-radius: 40% 60% 30% 60% / 60% 30% 60% 40%;
-        transform: rotate(270deg) translate(25px, 25px) scale(1.05);
+        transform: translate3d(20px, 20px, 0) rotate(270deg) scale(1.02);
     }
 }
 
@@ -404,15 +408,19 @@ section::after {
 }
 
 .about::before {
-    width: 350px;
-    height: 350px;
+    width: 380px;
+    height: 380px;
     border-radius: 45% 55% 30% 70% / 60% 30% 70% 40%;
+    opacity: 0.12;
+    border-width: 5px;
 }
 
 .about::after {
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
     border-radius: 35% 65% 60% 40% / 40% 50% 50% 60%;
+    opacity: 0.12;
+    border-width: 4px;
 }
 
 /* Animated Statistics Section */

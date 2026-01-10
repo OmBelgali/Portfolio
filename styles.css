@@ -128,6 +128,8 @@ body {
     padding: 100px 20px 50px;
     position: relative;
     overflow: hidden;
+    will-change: transform, opacity;
+    transform: translateZ(0);
 }
 
 .hero::before {
@@ -137,9 +139,10 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+    background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
     z-index: -1;
+    will-change: auto;
 }
 
 .hero-content {
@@ -273,34 +276,36 @@ body {
     position: absolute;
     border-radius: 50%;
     opacity: 0.3;
-    animation: float 6s ease-in-out infinite;
+    animation: float 8s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .shape-1 {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     background: var(--gradient-1);
-    top: 10%;
-    left: 10%;
+    top: 15%;
+    left: 15%;
     animation-delay: 0s;
 }
 
 .shape-2 {
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
     background: var(--gradient-2);
-    top: 50%;
-    right: 10%;
-    animation-delay: 2s;
+    top: 55%;
+    right: 15%;
+    animation-delay: 2.5s;
 }
 
 .shape-3 {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     background: var(--gradient-3);
-    bottom: 10%;
-    left: 50%;
-    animation-delay: 4s;
+    bottom: 15%;
+    left: 55%;
+    animation-delay: 5s;
 }
 
 .scroll-indicator {
@@ -1266,10 +1271,10 @@ section::after {
 
 @keyframes float {
     0%, 100% {
-        transform: translateY(0) rotate(0deg);
+        transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
     }
     50% {
-        transform: translateY(-20px) rotate(180deg);
+        transform: translate3d(0, -12px, 0) rotate(45deg) scale(1.05);
     }
 }
 

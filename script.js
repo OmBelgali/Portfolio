@@ -168,15 +168,34 @@ function typeWriter(element, text, speed = 100) {
     type();
 }
 
-// Parallax Effect for Hero Section
-window.addEventListener('scroll', () => {
+// Optimized Parallax Effect for Hero Section (Throttled and Limited)
+let ticking = false;
+let lastScrollTop = 0;
+
+function updateParallax() {
     const scrolled = window.pageYOffset;
     const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-        hero.style.opacity = 1 - scrolled / 500;
+    
+    // Only apply parallax when hero is visible and within first viewport
+    if (hero && scrolled < window.innerHeight * 1.5) {
+        const parallaxValue = Math.min(scrolled * 0.2, window.innerHeight * 0.3);
+        hero.style.transform = `translate3d(0, ${parallaxValue}px, 0)`;
+        hero.style.opacity = Math.max(0.4, 1 - scrolled / 700);
+    } else if (hero && scrolled >= window.innerHeight * 1.5) {
+        // Stop parallax once hero is out of view
+        hero.style.transform = 'translate3d(0, 0, 0)';
     }
-});
+    
+    lastScrollTop = scrolled;
+    ticking = false;
+}
+
+window.addEventListener('scroll', () => {
+    if (!ticking) {
+        window.requestAnimationFrame(updateParallax);
+        ticking = true;
+    }
+}, { passive: true });
 
 // Counter Animation for Stats (if needed in future)
 function animateCounter(element, target, duration = 2000) {

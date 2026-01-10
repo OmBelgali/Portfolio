@@ -1,43 +1,4 @@
-// Theme Toggle
-const themeToggle = document.getElementById('theme-toggle');
-const themeIcon = document.getElementById('theme-icon');
-const html = document.documentElement;
-
-// Get saved theme or default to dark
-const savedTheme = localStorage.getItem('theme') || 'dark';
-html.setAttribute('data-theme', savedTheme);
-
-// Update icon on page load
-if (themeIcon) {
-    if (savedTheme === 'dark') {
-        themeIcon.classList.remove('fa-sun');
-        themeIcon.classList.add('fa-moon');
-    } else {
-        themeIcon.classList.remove('fa-moon');
-        themeIcon.classList.add('fa-sun');
-    }
-}
-
-// Theme toggle functionality
-if (themeToggle) {
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = html.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        
-        html.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-        
-        if (themeIcon) {
-            if (newTheme === 'dark') {
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-            } else {
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-            }
-        }
-    });
-}
+// Removed theme toggle code for better performance
 
 // Mobile Menu Toggle
 const hamburger = document.getElementById('hamburger');
@@ -57,28 +18,22 @@ navLinks.forEach(link => {
     });
 });
 
-// Navbar Scroll Effect
+// Combined Optimized Scroll Handler (Single Event Listener)
 const navbar = document.getElementById('navbar');
-let lastScroll = 0;
+const sections = document.querySelectorAll('section[id]');
+let scrollTicking = false;
 
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
+function handleScroll() {
+    const scrollY = window.pageYOffset;
     
-    if (currentScroll > 100) {
+    // Update navbar
+    if (scrollY > 100) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
     }
     
-    lastScroll = currentScroll;
-});
-
-// Active Navigation Link on Scroll
-const sections = document.querySelectorAll('section[id]');
-
-function scrollActive() {
-    const scrollY = window.pageYOffset;
-
+    // Update active nav link
     sections.forEach(section => {
         const sectionHeight = section.offsetHeight;
         const sectionTop = section.offsetTop - 100;
@@ -91,9 +46,16 @@ function scrollActive() {
             navLink?.classList.remove('active');
         }
     });
+    
+    scrollTicking = false;
 }
 
-window.addEventListener('scroll', scrollActive);
+window.addEventListener('scroll', () => {
+    if (!scrollTicking) {
+        window.requestAnimationFrame(handleScroll);
+        scrollTicking = true;
+    }
+}, { passive: true });
 
 // Smooth Scroll for Navigation Links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -152,6 +114,25 @@ document.querySelectorAll('.project-card, .timeline-item, .experience-card, .cer
     animateOnScroll.observe(el);
 });
 
+// Optimize Section Background Shapes - Only animate when visible
+const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+        } else {
+            entry.target.classList.remove('in-view');
+        }
+    });
+}, {
+    threshold: 0.1,
+    rootMargin: '100px'
+});
+
+// Observe all sections for background animation optimization
+document.querySelectorAll('section').forEach(section => {
+    sectionObserver.observe(section);
+});
+
 // Typing Effect for Hero Title (Optional Enhancement)
 function typeWriter(element, text, speed = 100) {
     let i = 0;
@@ -168,34 +149,7 @@ function typeWriter(element, text, speed = 100) {
     type();
 }
 
-// Optimized Parallax Effect for Hero Section (Throttled and Limited)
-let ticking = false;
-let lastScrollTop = 0;
-
-function updateParallax() {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    
-    // Only apply parallax when hero is visible and within first viewport
-    if (hero && scrolled < window.innerHeight * 1.5) {
-        const parallaxValue = Math.min(scrolled * 0.2, window.innerHeight * 0.3);
-        hero.style.transform = `translate3d(0, ${parallaxValue}px, 0)`;
-        hero.style.opacity = Math.max(0.4, 1 - scrolled / 700);
-    } else if (hero && scrolled >= window.innerHeight * 1.5) {
-        // Stop parallax once hero is out of view
-        hero.style.transform = 'translate3d(0, 0, 0)';
-    }
-    
-    lastScrollTop = scrolled;
-    ticking = false;
-}
-
-window.addEventListener('scroll', () => {
-    if (!ticking) {
-        window.requestAnimationFrame(updateParallax);
-        ticking = true;
-    }
-}, { passive: true });
+// Removed parallax effect for better performance
 
 // Counter Animation for Stats (if needed in future)
 function animateCounter(element, target, duration = 2000) {
@@ -279,10 +233,11 @@ document.addEventListener('DOMContentLoaded', () => {
         bar.style.width = '0%';
     });
     
-    // Add fade-in animation to hero content
+    // Simple fade-in for hero content
     const heroContent = document.querySelector('.hero-text');
     if (heroContent) {
-        heroContent.style.animation = 'fadeInUp 1s ease';
+        heroContent.style.opacity = '1';
+        heroContent.style.transform = 'translateY(0)';
     }
 });
 

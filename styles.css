@@ -128,8 +128,6 @@ body {
     padding: 100px 20px 50px;
     position: relative;
     overflow: hidden;
-    will-change: transform, opacity;
-    transform: translateZ(0);
 }
 
 .hero::before {
@@ -139,10 +137,10 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 40%);
+    background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 35%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 35%);
     z-index: -1;
-    will-change: auto;
+    pointer-events: none;
 }
 
 .hero-content {
@@ -155,7 +153,8 @@ body {
 }
 
 .hero-text {
-    animation: fadeInUp 1s ease;
+    animation: fadeInUp 0.8s ease forwards;
+    opacity: 0;
 }
 
 .hero-title {
@@ -270,42 +269,63 @@ body {
     position: relative;
     width: 100%;
     height: 100%;
+    contain: layout style paint;
+    transform: translateZ(0);
 }
 
 .shape {
     position: absolute;
     border-radius: 50%;
     opacity: 0.3;
-    animation: float 8s ease-in-out infinite;
-    will-change: transform;
+    animation: float 10s ease-in-out infinite;
     transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
+    contain: layout style paint;
 }
 
 .shape-1 {
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
     background: var(--gradient-1);
-    top: 15%;
-    left: 15%;
+    top: 10%;
+    left: 10%;
     animation-delay: 0s;
 }
 
 .shape-2 {
-    width: 130px;
-    height: 130px;
+    width: 150px;
+    height: 150px;
     background: var(--gradient-2);
-    top: 55%;
-    right: 15%;
-    animation-delay: 2.5s;
+    top: 50%;
+    right: 10%;
+    animation-delay: 2s;
 }
 
 .shape-3 {
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     background: var(--gradient-3);
-    bottom: 15%;
-    left: 55%;
-    animation-delay: 5s;
+    bottom: 10%;
+    left: 50%;
+    animation-delay: 4s;
+}
+
+/* Reduce animations on low-end devices */
+@media (prefers-reduced-motion: reduce) {
+    .shape {
+        animation: none !important;
+    }
+    
+    .scroll-indicator {
+        animation: none !important;
+    }
+    
+    section::before,
+    section::after {
+        animation: none !important;
+        animation-play-state: paused !important;
+    }
 }
 
 .scroll-indicator {
@@ -334,51 +354,49 @@ section::after {
     content: '';
     position: absolute;
     pointer-events: none;
-    opacity: 0.1;
+    opacity: 0.05;
     z-index: 0;
-    will-change: transform, border-radius;
     transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
-/* Animated Background Scribbles */
+/* Optimized Animated Background Scribbles - Only animate when visible */
 section::before {
-    width: 350px;
-    height: 350px;
-    border: 4px solid var(--primary-color);
+    width: 300px;
+    height: 300px;
+    border: 3px solid var(--primary-color);
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    top: -100px;
-    right: -50px;
-    animation: morph 18s ease-in-out infinite;
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
+    top: -80px;
+    right: -40px;
+    animation: morph 30s ease-in-out infinite;
+    animation-play-state: paused;
 }
 
 section::after {
-    width: 280px;
-    height: 280px;
-    border: 3px solid var(--secondary-color);
+    width: 220px;
+    height: 220px;
+    border: 2px solid var(--secondary-color);
     border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-    bottom: -50px;
-    left: -30px;
-    animation: morph 14s ease-in-out infinite reverse;
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+    bottom: -40px;
+    left: -25px;
+    animation: morph 25s ease-in-out infinite reverse;
+    animation-play-state: paused;
+}
+
+/* Only animate when section is in viewport */
+section.in-view::before,
+section.in-view::after {
+    animation-play-state: running;
 }
 
 @keyframes morph {
     0%, 100% {
         border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-        transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
-    }
-    25% {
-        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-        transform: translate3d(25px, -25px, 0) rotate(90deg) scale(1.05);
+        transform: translate3d(0, 0, 0);
     }
     50% {
-        border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%;
-        transform: translate3d(-15px, 15px, 0) rotate(180deg) scale(0.95);
-    }
-    75% {
-        border-radius: 40% 60% 30% 60% / 60% 30% 60% 40%;
-        transform: translate3d(20px, 20px, 0) rotate(270deg) scale(1.02);
+        border-radius: 40% 60% 50% 50% / 50% 50% 50% 50%;
+        transform: translate3d(15px, -15px, 0);
     }
 }
 
@@ -1271,10 +1289,10 @@ section::after {
 
 @keyframes float {
     0%, 100% {
-        transform: translate3d(0, 0, 0) rotate(0deg) scale(1);
+        transform: translate3d(0, 0, 0) rotate(0deg);
     }
     50% {
-        transform: translate3d(0, -12px, 0) rotate(45deg) scale(1.05);
+        transform: translate3d(0, -12px, 0) rotate(45deg);
     }
 }
 

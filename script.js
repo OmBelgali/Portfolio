@@ -264,38 +264,39 @@ window.addEventListener('load', () => {
     }, 100);
 });
 
+// GitHub Statistics Section - REMOVED (keep for future use)
 // Animate Statistics Counter
-function animateCounter(element, target, duration = 2000) {
-    let start = 0;
-    const increment = target / (duration / 16);
-    const timer = setInterval(() => {
-        start += increment;
-        if (start >= target) {
-            element.textContent = target;
-            clearInterval(timer);
-        } else {
-            element.textContent = Math.floor(start);
-        }
-    }, 16);
-}
+// function animateCounter(element, target, duration = 2000) {
+//     let start = 0;
+//     const increment = target / (duration / 16);
+//     const timer = setInterval(() => {
+//         start += increment;
+//         if (start >= target) {
+//             element.textContent = target;
+//             clearInterval(timer);
+//         } else {
+//             element.textContent = Math.floor(start);
+//         }
+//     }, 16);
+// }
 
 // Observe GitHub Stats Section for Animation
-const statsObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            const statNumbers = entry.target.querySelectorAll('.stat-number');
-            statNumbers.forEach(stat => {
-                const target = parseInt(stat.getAttribute('data-target'));
-                animateCounter(stat, target);
-            });
-            statsObserver.unobserve(entry.target);
-        }
-    });
-}, {
-    threshold: 0.5
-});
+// const statsObserver = new IntersectionObserver((entries) => {
+//     entries.forEach(entry => {
+//         if (entry.isIntersecting) {
+//             const statNumbers = entry.target.querySelectorAll('.stat-number');
+//             statNumbers.forEach(stat => {
+//                 const target = parseInt(stat.getAttribute('data-target'));
+//                 animateCounter(stat, target);
+//             });
+//             statsObserver.unobserve(entry.target);
+//         }
+//     });
+// }, {
+//     threshold: 0.5
+// });
 
-const githubStatsSection = document.querySelector('.github-stats');
-if (githubStatsSection) {
-    statsObserver.observe(githubStatsSection);
-}
+// const githubStatsSection = document.querySelector('.github-stats');
+// if (githubStatsSection) {
+//     statsObserver.observe(githubStatsSection);
+// }

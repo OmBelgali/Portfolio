@@ -427,7 +427,7 @@ section.in-view::after {
 
 /* About Section */
 .about {
-    background: var(--dark-bg);
+    background: var(--dark-card);
 }
 
 .about::before {
@@ -540,7 +540,8 @@ section.in-view::after {
     font-weight: 500;
 }
 
-/* GitHub Stats Section */
+/* GitHub Stats Section - REMOVED (keep for future use) */
+/*
 .github-stats {
     background: var(--dark-card);
     position: relative;
@@ -555,7 +556,9 @@ section.in-view::after {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
 }
+*/
 
+/*
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -622,6 +625,7 @@ section.in-view::after {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
 }
+*/
 
 .about-content {
     max-width: 800px;
@@ -763,7 +767,7 @@ section.in-view::after {
 
 /* Experience Section */
 .experience {
-    background: var(--dark-card);
+    background: var(--dark-bg);
     position: relative;
 }
 
@@ -780,7 +784,7 @@ section.in-view::after {
 .experience-card {
     max-width: 900px;
     margin: 0 auto;
-    background: var(--dark-bg);
+    background: var(--dark-card);
     padding: 2.5rem;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
@@ -798,7 +802,7 @@ section.in-view::after {
     align-items: flex-start;
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
-    border-bottom: 2px solid var(--dark-card);
+    border-bottom: 2px solid var(--dark-bg);
 }
 
 .experience-title h3 {
@@ -1122,10 +1126,13 @@ section.in-view::after {
 }
 
 /* Certifications Section */
+.certifications {
+    background: var(--dark-card);
+}
 .cert-card {
     max-width: 700px;
     margin: 0 auto;
-    background: var(--dark-card);
+    background: var(--dark-bg);
     padding: 2.5rem;
     border-radius: 20px;
     display: flex;
@@ -1172,7 +1179,7 @@ section.in-view::after {
 
 /* Contact Section */
 .contact {
-    background: var(--dark-card);
+    background: var(--dark-bg);
 }
 
 .contact-content {
@@ -1194,7 +1201,7 @@ section.in-view::after {
     gap: 1.5rem;
     align-items: flex-start;
     padding: 1.5rem;
-    background: var(--dark-bg);
+    background: var(--dark-card);
     border-radius: 15px;
     transition: all 0.3s ease;
 }
@@ -1242,7 +1249,7 @@ section.in-view::after {
     align-items: center;
     gap: 1rem;
     padding: 1.2rem;
-    background: var(--dark-bg);
+    background: var(--dark-card);
     border-radius: 15px;
     text-decoration: none;
     color: var(--dark-text);
@@ -1264,11 +1271,11 @@ section.in-view::after {
 
 /* Footer */
 .footer {
-    background: var(--dark-bg);
+    background: var(--dark-card);
     padding: 2rem 0;
     text-align: center;
     color: var(--light-text);
-    border-top: 1px solid var(--dark-card);
+    border-top: 1px solid var(--dark-bg);
 }
 
 .footer p {
